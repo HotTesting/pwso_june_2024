@@ -1,0 +1,16 @@
+{
+  "name": "pwso_june_2024",
+  "version": "1.0.0",
+  "description": "Demo project for pwso_june_2024",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "1.44.1",
+    "@types/node": "^20.14.2",
+    "mongodb": "^6.7.0"
+  }
+}
