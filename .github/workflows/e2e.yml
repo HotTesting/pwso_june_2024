@@ -5,15 +5,20 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  full-e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.44.1-jammy
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3]
+        shardTotal: [3]
     steps:
     - uses: actions/checkout@v4
     - name: running e2e tests
-      run: npm cit
+      run: npm cit -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:

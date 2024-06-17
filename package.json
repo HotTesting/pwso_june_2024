@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Demo project for pwso_june_2024",
   "scripts": {
+    "test+env": "node --env-file=.env node_modules/@playwright/test/cli.js test",
     "test": "playwright test"
   },
   "keywords": [],
