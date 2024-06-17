@@ -17,8 +17,10 @@ jobs:
         shardTotal: [3]
     steps:
     - uses: actions/checkout@v4
+    - name: install npm deps
+      run: npm ci
     - name: running e2e tests
-      run: npm cit -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: npm test -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
