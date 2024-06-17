@@ -10,22 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.44.1-jammy
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     shardIndex: [1, 2, 3]
-    #     shardTotal: [3]
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3]
+        shardTotal: [3]
     steps:
     - uses: actions/checkout@v4
     - name: install npm deps
       run: npm ci
     - name: running e2e tests
-      # run: npm test -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-      run: npm test
+      run: npm test -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      # run: npm test
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        # name: playwright-report-${{ matrix.shardIndex }}
-        name: playwright-report-html
+        name: playwright-report-${{ matrix.shardIndex }}
+        # name: playwright-report-html
         path: playwright-report/
         retention-days: 7
