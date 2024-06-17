@@ -1,15 +1,15 @@
-import { defineConfig, devices } from "@playwright/test";
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
+ * require('dotenv').config();
  */
-// require('dotenv').config();
+// import 'dotenv/config'
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig<DefaultUserOption>({
+export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
   workers: 1,
@@ -19,7 +19,6 @@ export default defineConfig<DefaultUserOption>({
     ["list"],
     ["html"],
   ],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: "https://shopdemo-alex-hot.koyeb.app",
     headless: process.env.CI ? true : false,
