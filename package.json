@@ -7,12 +7,13 @@
     "test": "playwright test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Oleksandr Khotemskyi <xotabu4@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@playwright/test": "1.44.1",
     "@types/node": "^20.14.2",
-    "mongodb": "^6.7.0",
-    "envalid": "^8.0.0"
+    "dotenv": "^16.4.5",
+    "envalid": "^8.0.0",
+    "mongodb": "^6.7.0"
   }
 }

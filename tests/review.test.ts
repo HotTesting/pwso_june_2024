@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test(`user can post review for product`, async ({ page }) => {
-  await page.goto("https://shopdemo-alex-hot.koyeb.app/register");
+  await page.goto("/register");
 
   await page
     .getByRole("main")
@@ -12,14 +12,14 @@ test(`user can post review for product`, async ({ page }) => {
 
   await page.getByPlaceholder("Please Enter Your Last Name").fill("test");
 
-  await page.getByPlaceholder("Please Enter Your Password").fill("xotabu4@gmail.com");
+  await page
+    .getByPlaceholder("Please Enter Your Password")
+    .fill("xotabu4@gmail.com");
   await page.getByRole("button", { name: "Sign Up" }).click();
 
   await page.waitForTimeout(2000); // wait for the user to be created
-    
-  await page.goto(
-    "https://shopdemo-alex-hot.koyeb.app/product/cherry-tomatoes"
-  );
+
+  await page.goto("/product/cherry-tomatoes");
 
   await page.getByPlaceholder("Enter Review title").fill("review title");
   await page.getByPlaceholder("Write Review").fill("review comment");
