@@ -11,7 +11,7 @@
   "dependencies": {
     "@playwright/test": "1.44.1",
     "@types/node": "^20.14.2",
-    "mongodb": "^6.7.0",  
+    "mongodb": "^6.7.0",
     "envalid": "^8.0.0"
   }
 }

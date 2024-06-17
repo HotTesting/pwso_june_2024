@@ -4,7 +4,10 @@
  * require('dotenv').config();
  */
 // import 'dotenv/config'
+import { env } from "./_prepared/env";
 import { defineConfig, devices } from "@playwright/test";
+
+console.log(env)
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -15,10 +18,7 @@ export default defineConfig({
   workers: 1,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: [
-    ["list"],
-    ["html"],
-  ],
+  reporter: [["list"], ["html"]],
   use: {
     baseURL: "https://shopdemo-alex-hot.koyeb.app",
     headless: process.env.CI ? true : false,
