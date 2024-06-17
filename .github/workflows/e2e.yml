@@ -21,9 +21,10 @@ jobs:
       run: npm ci
     - name: running e2e tests
       run: npm test -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      # run: npm test
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: playwright-report
+        name: playwright-report-${{ matrix.shardIndex }}
         path: playwright-report/
         retention-days: 7
