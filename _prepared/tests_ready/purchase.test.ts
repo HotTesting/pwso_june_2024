@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { shopTest } from "../fixture";
+import { shopTest } from "../../fixture";
 
 const testData = [
   {

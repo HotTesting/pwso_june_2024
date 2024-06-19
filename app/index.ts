@@ -1,4 +1,4 @@
-import { API } from "../api/api";
+import { API } from "../_prepared/api/api";
 import { PageHolder } from "./abstractClasses";
 import { AccountDetails } from "./page/account/details.page";
 import { Confirmation } from "./page/confirmation.page";

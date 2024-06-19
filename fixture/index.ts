@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import { Application } from "../app";
 import { randomUUID } from "crypto";
-import { UserCreateRequest, UserCreatedResponse } from "../api/models";
+import { UserCreateRequest, UserCreatedResponse } from "../_prepared/api/models";
+import { Application } from "../app";
 
 interface UserContext {
   userModel: UserCreateRequest;

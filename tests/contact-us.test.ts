@@ -1,16 +1,27 @@
 import { test, expect } from "@playwright/test";
 import { skipIfWebkit } from "../utils/testSkipper";
 import { Tag } from "../tags";
+import { randomUUID } from "node:crypto";
+import { shopTest } from "../fixture";
 
 skipIfWebkit();
+
+shopTest("can submit contact us form", async ({ app: { contactus }, page }) => {
+  await contactus.open();
+  await contactus.submitContactUsForm({
+    email: `xotabu4+${randomUUID()}@gmail.com`,
+    fullName: "test name",
+    message: "test message",
+  });
+  await expect(
+    page.getByPlaceholder("Please Describe Your Message")
+  ).toBeEmpty();
+});
 
 test(
   "User can submit contact us form",
   {
-    tag: [
-      Tag.NotForSafari,
-      Tag.Smoke
-    ],
+    tag: [Tag.NotForSafari, Tag.Smoke],
   },
   async ({ page }) => {
     await page.goto("/");
