@@ -6,6 +6,8 @@ on:
     branches: [ main, master ]
 jobs:
   full-e2e:
+    env:
+      HOME: /root
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
