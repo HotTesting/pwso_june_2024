@@ -3,9 +3,9 @@ import { randomUUID } from "crypto";
 import {
   UserCreateRequest,
   UserCreatedResponse,
-} from "../_prepared/api/models";
+} from "../api/models";
 import { Application } from "../app";
-import { DB } from "../_prepared/db";
+import { DB } from "../db";
 import { CreateDBUser } from "../_prepared/db/models";
 
 interface UserContext {
@@ -57,10 +57,10 @@ export const shopTest = test.extend<
   ],
 
   newAdminUser: async ({ db, app }, use) => {
-    const admin = await db.createAdminUser()
-    await app.headlessLogin({email: admin.email, password: "xotabu4@gmail.com"});
+    const admin = await db.createAdminUser();
+    await app.headlessLogin({ email: admin.email, password: "xotabu4@gmail.com" });
     await app.home.open();
-    await use(admin);
+    await use({...admin, password: "xotabu4@gmail.com"});
   },
 
   newUser: async ({ app }, use) => {

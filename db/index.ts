@@ -1,8 +1,9 @@
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
-import { env } from "../../env";
+import { env } from "../env";
 
 import { CreateDBUser } from "./models";
+import { step } from "../misc/reporters/step";
 
 export class DB {
   static async connect() {
@@ -21,13 +22,15 @@ export class DB {
     return new DB(client);
   }
 
-  constructor(private client: MongoClient) {}
+  private constructor(private client: MongoClient) {}
 
   async close() {
     await this.client.close();
   }
 
+  @step()
   async createAdminUser(): Promise<CreateDBUser> {
+    console.time('createAdminUser');
     const doc: CreateDBUser = {
       _id: new ObjectId(),
       merchant: null,
@@ -41,6 +44,7 @@ export class DB {
     };
 
     await this.client.db("test").collection("users").insertOne(doc);
+    console.timeEnd('createAdminUser');
     return doc
   }
 }

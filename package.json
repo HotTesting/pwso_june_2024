@@ -15,5 +15,8 @@
     "dotenv": "^16.4.5",
     "envalid": "^8.0.0",
     "mongodb": "^6.7.0"
+  },
+  "devDependencies": {
+    "monocart-reporter": "^2.5.0"
   }
 }

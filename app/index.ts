@@ -1,4 +1,4 @@
-import { API } from "../_prepared/api/api";
+import { API } from "../api";
 import { PageHolder } from "./abstractClasses";
 import { AccountDetails } from "./page/account/details.page";
 import { Confirmation } from "./page/confirmation.page";
@@ -27,10 +27,12 @@ export class Application extends PageHolder {
   }
 
   async setTokenToLocalStorage(token: string) {
+    console.time("setTokenToLocalStorage");
     await this.page.goto("/", { waitUntil: "commit" });
     await this.page.evaluate(
       (_token) => window.localStorage.setItem("token", _token),
       token
     );
+    console.timeEnd("setTokenToLocalStorage");
   }
 }

@@ -44,13 +44,27 @@ import { Tag } from "./tags";
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
-  workers: '90%',
+  workers: "90%",
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: [["list"], ["html"]],
+  reporter: [
+    ["list", {
+      printSteps: true,
+    }],
+    // [
+    //   "monocart-reporter",
+    //   {
+    //     name: "My Test Report",
+    //     outputFile: "./test-results/report.html",
+    //   },
+    // ],
+    ["html"]
+  ],
   use: {
     baseURL: env.FRONTEND_URL,
     headless: process.env.CI ? true : false,
+    trace: 'on',
+    screenshot: 'only-on-failure',
   },
   globalSetup: require.resolve("./globalSetup.ts"),
   projects: [

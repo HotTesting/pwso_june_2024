@@ -7,7 +7,7 @@ import { globalBeforeEach } from "../fixture/globalBeforeEach";
 
 skipIfWebkit();
 
-globalBeforeEach()
+globalBeforeEach();
 
 shopTest("can submit contact us form", async ({ app: { contactus }, page }) => {
   await contactus.open();
@@ -24,6 +24,7 @@ shopTest("can submit contact us form", async ({ app: { contactus }, page }) => {
 test(
   "User can submit contact us form",
   {
+    annotation: [{ type: "JIRA", description: "http://jira.com/CS-1232132" }],
     tag: [Tag.NotForSafari, Tag.Smoke],
   },
   async ({ page }) => {
@@ -39,6 +40,10 @@ test(
       .fill(
         "Hello there! I eat tomatoes every day. Why your cannery is so good?"
       );
+
+    shopTest
+      .info()
+      .annotations.push({ type: "VIDEO_SESSION_ID", description: "123123" });
     await page.getByRole("button", { name: "Submit" }).click();
     await expect(
       page.getByPlaceholder("Please Describe Your Message")
