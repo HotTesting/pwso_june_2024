@@ -1,48 +1,46 @@
 import { MongoClient, ServerApiVersion, ObjectId } from "mongodb";
+import { randomUUID } from "node:crypto";
+import { env } from "../../env";
 
-// connection string
-const uri =
-  "mongodb+srv://xotabu4:xotabu4@ecomercedemo.gmcnwqo.mongodb.net/?retryWrites=true&w=majority&appName=ecomercedemo";
+import { CreateDBUser } from "./models";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
+export class DB {
+  static async connect() {
+    // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+    const client = new MongoClient(env.DB_CONNECTION_URI, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      },
+    });
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    console.log("Successfully connected to MongoDB!");
+    return new DB(client);
+  }
 
-    const newUser = {
+  constructor(private client: MongoClient) {}
+
+  async close() {
+    await this.client.close();
+  }
+
+  async createAdminUser(): Promise<CreateDBUser> {
+    const doc: CreateDBUser = {
       _id: new ObjectId(),
       merchant: null,
       provider: "Email",
       role: "ROLE ADMIN",
-      email: "testmongodb@mongo.db",
+      email: `testdb+${randomUUID()}@test.com`,
       // hashed xotabu4@gmail.com
       password: "$2a$10$SQtYcNaD8xJlHSIvAu/vKOt3Gr/hPzJMV2RHOXsqbhzwdKT7kqQxO",
-      firstName: "admin",
-      lastName: "admin",
-    //   created: { $date: { $numberLong: "1690024910188" } },
-    //   __v: { $numberInt: "0" },
+      firstName: "test",
+      lastName: "test",
     };
 
-    await client.db("test").collection("users").insertOne(newUser);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    await this.client.db("test").collection("users").insertOne(doc);
+    return doc
   }
 }
-
-console.log("authenticating...");
-// run().catch(console.dir);

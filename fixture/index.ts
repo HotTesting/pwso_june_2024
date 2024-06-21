@@ -1,23 +1,34 @@
 import { test } from "@playwright/test";
 import { randomUUID } from "crypto";
-import { UserCreateRequest, UserCreatedResponse } from "../_prepared/api/models";
+import {
+  UserCreateRequest,
+  UserCreatedResponse,
+} from "../_prepared/api/models";
 import { Application } from "../app";
+import { DB } from "../_prepared/db";
+import { CreateDBUser } from "../_prepared/db/models";
 
 interface UserContext {
   userModel: UserCreateRequest;
   createdUser: UserCreatedResponse;
 }
 
-export const shopTest = test.extend<{
-  app: Application;
-  newUser: UserContext;
-  itemAddedInCart: {
-    itemsInCart: { slug: string }[];
-  };
-  testOptions: {
-    itemsToAddInCart: { slug: string; quantity?: number }[];
-  };
-}>({
+export const shopTest = test.extend<
+  // test level
+  {
+    app: Application;
+    newAdminUser: CreateDBUser;
+    newUser: UserContext;
+    itemAddedInCart: {
+      itemsInCart: { slug: string }[];
+    };
+    testOptions: {
+      itemsToAddInCart: { slug: string; quantity?: number }[];
+    };
+  },
+  // worker level
+  { db: DB }
+>({
   testOptions: [
     {
       itemsToAddInCart: [
@@ -34,6 +45,22 @@ export const shopTest = test.extend<{
   app: async ({ page }, use) => {
     const app = new Application(page);
     await use(app);
+  },
+
+  db: [
+    async ({}, use) => {
+      const db = await DB.connect();
+      await use(db);
+      await db.close();
+    },
+    { scope: "worker" },
+  ],
+
+  newAdminUser: async ({ db, app }, use) => {
+    const admin = await db.createAdminUser()
+    await app.headlessLogin({email: admin.email, password: "xotabu4@gmail.com"});
+    await app.home.open();
+    await use(admin);
   },
 
   newUser: async ({ app }, use) => {
