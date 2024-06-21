@@ -1,4 +1,7 @@
 import { shopTest } from "../fixture";
+import { globalBeforeEach } from "../fixture/globalBeforeEach";
+
+globalBeforeEach();
 
 shopTest(
   `user can post review for product`,

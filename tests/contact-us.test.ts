@@ -3,8 +3,11 @@ import { skipIfWebkit } from "../utils/testSkipper";
 import { Tag } from "../tags";
 import { randomUUID } from "node:crypto";
 import { shopTest } from "../fixture";
+import { globalBeforeEach } from "../fixture/globalBeforeEach";
 
 skipIfWebkit();
+
+globalBeforeEach()
 
 shopTest("can submit contact us form", async ({ app: { contactus }, page }) => {
   await contactus.open();
